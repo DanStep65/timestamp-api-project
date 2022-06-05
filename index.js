@@ -18,31 +18,6 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
-//route the 'url/api/<any date format>' to either get or post
-app.route("/api/:date")
-  .get((req, res) => {
-
-    if(req.params.date.match('-')){
-      const d = new Date(req.params.date);
-      res.json(
-        {
-          "unix": d.getTime(),
-          "utc": d.toUTCString()
-        });
-    }
-    else{
-      const d = new Date(parseInt(req.params.date));
-      res.json(
-        {
-          "unix": d.getTime(),
-          "utc": d.toUTCString()
-        });
-    }
-  })
-  .post((req, res) => {
-    const d = new Date(req.params.date);
-    res.send(d.toString());
-  });
 
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
@@ -50,6 +25,56 @@ app.get("/api/hello", function (req, res) {
 });
 
 
+//route the 'url/api/<any date format>' to either get or post (just in case, even though the project only requires get method)
+app.route("/api/:date")
+  //route through the get method )
+  .get((req, res) => {
+    //differentiate the type of date_string that is included in the parameter by using '-'
+    if(req.params.date.match('-')){
+      //directly put in the parameter as the argument in the constructor
+      const d = new Date(req.params.date);
+      //do output in json, with Date.getTime() for unix format and Date.toUTCString() for utc format
+      res.json(
+        {
+          "unix": d.getTime(),
+          "utc": d.toUTCString()
+        });
+    }
+    else{
+      //convert the date parameter to Number first before putting the parameter as an argument
+      const d = new Date(parseInt(req.params.date));
+      //do output in json, with Date.getTime() for unix format and Date.toUTCString() for utc format
+      res.json(
+        {
+          "unix": d.getTime(),
+          "utc": d.toUTCString()
+        });
+    }
+  })
+  //route through the post method
+  .post((req, res) => {
+    //differentiate the type of date_string that is included in the parameter by using '-'
+    if(req.params.date.match('-')){
+      //directly put in the parameter as the argument in the constructor
+      const d = new Date(req.params.date);
+      //do output in json, with Date.getTime() for unix format and Date.toUTCString() for utc format
+      res.json(
+        {
+          "unix": d.getTime(),
+          "utc": d.toUTCString()
+        });
+    }
+    else{
+      //convert the date parameter to Number first before putting the parameter as an argument
+      const d = new Date(parseInt(req.params.date));
+      //do output in json, with Date.getTime() for unix format and Date.toUTCString() for utc format
+      res.json(
+        {
+          "unix": d.getTime(),
+          "utc": d.toUTCString()
+        });
+    }
+  });
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
