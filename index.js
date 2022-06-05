@@ -18,6 +18,31 @@ app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
 });
 
+//route the 'url/api/<any date format>' to either get or post
+app.route("/api/:date")
+  .get((req, res) => {
+
+    if(req.params.date.match('-')){
+      const d = new Date(req.params.date);
+      res.json(
+        {
+          "unix": d.getTime(),
+          "utc": d.toUTCString()
+        });
+    }
+    else{
+      const d = new Date(parseInt(req.params.date));
+      res.json(
+        {
+          "unix": d.getTime(),
+          "utc": d.toUTCString()
+        });
+    }
+  })
+  .post((req, res) => {
+    const d = new Date(req.params.date);
+    res.send(d.toString());
+  });
 
 // your first API endpoint... 
 app.get("/api/hello", function (req, res) {
